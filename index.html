@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sweet & Dream Match-3 - Un gioco di abbinamento con tema dolciumi e unicorni" />
+    <meta name="theme-color" content="#c084fc" />
+    
+    <title>🍭 Sweet & Dream Match-3 🦄</title>
+    
+    <!-- Tailwind CSS via CDN (per sviluppo rapido) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Google (Poppins - dolce e moderno) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    
+    <style>
+      * {
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      body {
+        background: linear-gradient(135deg, #f3e7e9 0%, #f5f7fa 100%);
+      }
+      
+      /* Animazione di pulsazione dolce */
+      @keyframes gentle-pulse {
+        0%, 100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
+      
+      .animate-gentle-pulse {
+        animation: gentle-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      
+      /* Effetto di scintillio */
+      @keyframes sparkle {
+        0%, 100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      
+      .animate-sparkle {
+        animation: sparkle 1.5s ease-in-out infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/main.tsx"></script>
+  </body>
+</html>
