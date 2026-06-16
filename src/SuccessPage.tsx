@@ -4,15 +4,14 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 export const SuccessPage: React.FC = () => {
-  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const sessionId = searchParams.get('session_id');
-  const productId = searchParams.get('productId');
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+  const productId = params.get('productId');
 
   useEffect(() => {
     const verifyPayment = async () => {

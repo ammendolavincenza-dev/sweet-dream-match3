@@ -5,7 +5,19 @@
  */
 
 import React, { useState } from 'react';
-import { loadStripe } from '@stripe/js';
+// import { loadStripe } from '@stripe/js';
+
+// Carica Stripe dinamicamente dal CDN
+const loadStripe = async (key: string) => {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = 'https://js.stripe.com/v3/';
+    script.onload = () => {
+      resolve((window as any).Stripe(key));
+    };
+    document.head.appendChild(script);
+  });
+};
 
 /**
  * Interfaccia per un prodotto del negozio
@@ -195,21 +207,18 @@ export const ShopComponentStripe: React.FC<ShopComponentProps> = ({
       const { sessionId } = await response.json();
 
       // 2. Carica Stripe e reindirizza al checkout
-      const stripe = await loadStripe(
-        process.env.REACT_APP_STRIPE_PUBLIC_KEY ||
-          process.env.VITE_STRIPE_PUBLIC_KEY ||
-          'pk_test_YOUR_KEY_HERE'
-      );
+      // Ottieni la chiave da una variabile globale o dal localStorage
+      const stripeKey = (window as any).__STRIPE_KEY__ || localStorage.getItem('stripe_key') || 'pk_test_YOUR_KEY_HERE';
+      const stripe: any = await loadStripe(stripeKey);
 
       if (!stripe) {
         throw new Error('Stripe non è disponibile');
       }
 
-      const { error } = await stripe.redirectToCheckout({ sessionId });
+      // Reindirizza a Stripe Checkout
+      window.location.href = `https://checkout.stripe.com/pay/${sessionId}`;
 
-      if (error) {
-        throw new Error(error.message);
-      }
+
     } catch (error: any) {
       console.error('Errore nel pagamento:', error);
       alert(`❌ Errore: ${error.message}`);
