@@ -34,7 +34,7 @@ export const AdBannerComponent: React.FC<AdBannerComponentProps> = ({
     if (isProUser) return;
 
     // Carica lo script di Google AdSense se non è già caricato
-    if (window.adsbygoogle === undefined) {
+    if ((window as any).adsbygoogle === undefined) {
       const script = document.createElement('script');
       script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx';
       script.async = true;
@@ -44,7 +44,7 @@ export const AdBannerComponent: React.FC<AdBannerComponentProps> = ({
 
     // Prova a renderizzare gli ad
     try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
     } catch (e) {
       console.log('AdSense non è disponibile in modalità sviluppo');
     }
