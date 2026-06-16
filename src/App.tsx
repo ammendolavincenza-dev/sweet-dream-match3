@@ -10,6 +10,7 @@ import { Match3Board } from './Match3Board';
 import BoardComponent from './BoardComponent';
 import ShopComponent from './ShopComponent';
 import { HorizontalAdBanner, SquareAdBanner } from './AdBannerComponent';
+import { RewardedAdComponent } from './RewardedAdComponent';
 
 /**
  * Interfaccia per lo stato di gioco persistente
@@ -20,6 +21,7 @@ interface GameState {
   gamesPlayed: number;
   bestScore: number;
   lastPlayedDate: string;
+  lives: number; // Vite disponibili
 }
 
 /**
@@ -35,7 +37,8 @@ const DEFAULT_GAME_STATE: GameState = {
   totalScore: 0,
   gamesPlayed: 0,
   bestScore: 0,
-  lastPlayedDate: new Date().toISOString()
+  lastPlayedDate: new Date().toISOString(),
+  lives: 30 // Vite iniziali
 };
 
 /**
@@ -343,6 +346,20 @@ export const App: React.FC = () => {
         <p>Seleziona due tessere adiacenti per scambiarle</p>
         <p className="mt-2">Crea match di 3 o più tessere dello stesso tipo!</p>
       </div>
+
+      {/* Componente Annunci Incentivati (Guadagna Vite) */}
+      <RewardedAdComponent
+        isProUser={gameState.isProUser}
+        currentLives={gameState.lives}
+        maxLives={30}
+        onRewardEarned={(reward) => {
+          const newLives = gameState.lives + reward;
+          setGameState((prev) => ({
+            ...prev,
+            lives: Math.min(newLives, 30) // Max 30 vite
+          }));
+        }}
+      />
 
       {/* Componente Negozio */}
       <ShopComponent
